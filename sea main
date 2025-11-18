@@ -1,0 +1,90 @@
+# **IMC503 – Data Science Toolkit SEA Lab Assessment**
+
+### **Q2: Excel-Based Marks Generation & Grading**
+
+This repository contains the Excel sheet created as part of the SEA Lab Assessment for IMC503. All calculations and data processing in the Excel file are performed **strictly using Excel formulas**, with no hard-coded values, as instructed.
+
+---
+
+## **📘 What the Excel Sheet Contains**
+
+### **1. Student Marks Data**
+
+The Excel sheet includes:
+
+* ISA marks for IMC 503 (taken from Google Classroom)
+* Automatically extrapolated SEA marks based on ISA
+* Marks for other subjects appearing in the hall ticket (generated using formulas)
+
+All data entries are linked through formulas so that if ISA marks change, all final results update automatically.
+
+---
+
+## **📈 2. SEA Marks Extrapolation**
+
+The SEA (final exam) marks are extrapolated based on ISA performance using a proportional scaling formula such as:
+
+```
+= (ISA_Marks / ISA_Max) * SEA_Max
+```
+
+This ensures fairness and consistency in the projected SEA score.
+
+---
+
+## **📊 3. Total Marks & Percentage Calculation**
+
+The sheet calculates:
+
+* **Total marks** for each subject
+* **Percentage scored**
+* **Final overall percentage** (if applicable)
+
+These computations are entirely formula-driven, ensuring full automation.
+
+Example formula:
+
+```
+= (Total_Obtained / Total_Max) * 100
+```
+
+---
+
+## **🎓 4. Grade Assignment**
+
+Grades are assigned automatically using **nested IF formulas** based on the provided grading scheme.
+
+Example:
+
+```
+=IF(PERC>=85,"O",
+ IF(PERC>=75,"A+",
+ IF(PERC>=65,"A",
+ IF(PERC>=55,"B+",
+ IF(PERC>=50,"B",
+ IF(PERC>=45,"C",
+ IF(PERC>=40,"P","F")))))))
+```
+
+A matching **Grade Points** column is also generated using similar formulas.
+
+---
+
+## **🧮 5. Formula-Driven Data Generation**
+
+No values are manually typed except the initial ISA marks.
+Everything else — SEA marks, generated subject marks, percentages, grades, grade points — is fully automated.
+
+This ensures transparency, reproducibility, and correctness of the evaluation model.
+
+---
+
+## **📂 Repository Contents**
+
+* `IMC503_Marks.xlsx` — Main Excel sheet containing all calculations
+* `README.md` — Documentation explaining the sheet
+* Any other relevant files as part of the assessment
+
+---
+
+
