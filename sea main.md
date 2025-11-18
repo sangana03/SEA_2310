@@ -113,8 +113,7 @@ The main sheet uses these ranges to automatically determine:
 
 * `StudentPerformance.xlsx` – Main automated calculation sheet
 * `GradeMap` – Grade & SGPA mapping table
-* README description
-
+* `Explanation.md` - explanation of all the formulas 
 ---
 
 
