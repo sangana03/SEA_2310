@@ -1,90 +1,122 @@
-# **IMC503 – Data Science Toolkit SEA Lab Assessment**
+#2310
 
-### **Q2: Excel-Based Marks Generation & Grading**
+# 📊 Student Performance Analysis – Automated Excel Sheet
 
-This repository contains the Excel sheet created as part of the SEA Lab Assessment for IMC503. All calculations and data processing in the Excel file are performed **strictly using Excel formulas**, with no hard-coded values, as instructed.
-
----
-
-## **📘 What the Excel Sheet Contains**
-
-### **1. Student Marks Data**
-
-The Excel sheet includes:
-
-* ISA marks for IMC 503 (taken from Google Classroom)
-* Automatically extrapolated SEA marks based on ISA
-* Marks for other subjects appearing in the hall ticket (generated using formulas)
-
-All data entries are linked through formulas so that if ISA marks change, all final results update automatically.
+This project provides an Excel-based automated system for calculating student performance using internal marks, external marks, weightages, grade boundaries, and SGPA mapping.
+All calculations are performed using Excel formulas, ensuring **accuracy**, **automation**, and **easy scalability** for multiple students.
 
 ---
 
-## **📈 2. SEA Marks Extrapolation**
+## ✅ **📁 Project Overview**
 
-The SEA (final exam) marks are extrapolated based on ISA performance using a proportional scaling formula such as:
+This Excel tool is designed to simplify the evaluation of students by automatically computing:
 
-```
-= (ISA_Marks / ISA_Max) * SEA_Max
-```
+* Percentage scores
+* Weighted marks (internal + external)
+* Final combined score
+* Final overall percentage
+* Grade assignment (using a Grade Map sheet)
+* SGPA mapping
 
-This ensures fairness and consistency in the projected SEA score.
+The tool ensures that teachers or evaluators only enter raw marks — the sheet handles the rest on its own.
 
 ---
 
-## **📊 3. Total Marks & Percentage Calculation**
+## 📌 **🔧 Key Features**
 
-The sheet calculates:
+### **1. Automatic Percentage Calculation (Column D & E)**
 
-* **Total marks** for each subject
-* **Percentage scored**
-* **Final overall percentage** (if applicable)
+* **D2:** Calculates the **percentage of internal marks**, only when both internal score (B2) and max internal marks (C2) are provided.
 
-These computations are entirely formula-driven, ensuring full automation.
+  ```excel
+  =IF(AND(B2<>"",C2<>""),(B2/C2)*100,"")
+  ```
 
-Example formula:
+* **E2:** Calculates the **weighted internal marks**, rounded to a whole number.
 
-```
-= (Total_Obtained / Total_Max) * 100
+  ```excel
+  =IF(B2="","",ROUND((B2/C2)*F2,0))
+  ```
+
+### **2. External Marks Percentage (Column G)**
+
+Calculates the percentage score for external marks only when both score and out-of marks are present:
+
+```excel
+=IF(AND(E2<>"",F2<>""),(E2/F2)*100,"")
 ```
 
----
+### **3. Final Combined Score (Column H)**
 
-## **🎓 4. Grade Assignment**
+This formula averages internal and external marks **only if both values exist**.
+If one is missing, it uses the available value.
 
-Grades are assigned automatically using **nested IF formulas** based on the provided grading scheme.
-
-Example:
-
-```
-=IF(PERC>=85,"O",
- IF(PERC>=75,"A+",
- IF(PERC>=65,"A",
- IF(PERC>=55,"B+",
- IF(PERC>=50,"B",
- IF(PERC>=45,"C",
- IF(PERC>=40,"P","F")))))))
+```excel
+=IF(AND(D2<>"",G2<>""),(D2+G2)/2,IF(D2<>"",D2,IF(G2<>"",G2,"")))
 ```
 
-A matching **Grade Points** column is also generated using similar formulas.
+### **4. Grade Assignment (Column I)**
+
+Uses the **GradeMap sheet** to automatically look up the correct grade based on the final percentage:
+
+```excel
+=IF(H2="","",INDEX(GradeMap!$C$2:$C$9, MATCH(1, INDEX((H2>=GradeMap!$A$2:$A$9)*(H2<=GradeMap!$B$2:$B$9),0),0)))
+```
+
+### **5. SGPA Mapping (Column J)**
+
+Similar lookup method to fetch SGPA values from the grade map:
+
+```excel
+=IF(H2="","",INDEX(GradeMap!$D$2:$D$9, MATCH(1, INDEX((H2>=GradeMap!$A$2:$A$9)*(H2<=GradeMap!$B$2:$B$9),0),0)))
+```
 
 ---
 
-## **🧮 5. Formula-Driven Data Generation**
+## 🗂 **📄 GradeMap Sheet**
 
-No values are manually typed except the initial ISA marks.
-Everything else — SEA marks, generated subject marks, percentages, grades, grade points — is fully automated.
+This secondary sheet contains:
 
-This ensures transparency, reproducibility, and correctness of the evaluation model.
+| Min % | Max % | Grade | SGPA |
+| ----- | ----- | ----- | ---- |
+| 90    | 100   | O     | 10   |
+| 80    | 89    | A+    | 9    |
+| …     | …     | …     | …    |
+
+The main sheet uses these ranges to automatically determine:
+
+* The letter grade
+* The SGPA
 
 ---
 
-## **📂 Repository Contents**
+## 🎯 **📘 What This Project Achieves**
 
-* `IMC503_Marks.xlsx` — Main Excel sheet containing all calculations
-* `README.md` — Documentation explaining the sheet
-* Any other relevant files as part of the assessment
+✔ Eliminates manual calculations
+✔ Minimizes human error
+✔ Automatically assigns grade & SGPA
+✔ Fully customizable for any department or university
+✔ Easy to update grade boundaries
+✔ Suitable for any batch size
 
 ---
+
+## 🚀 **How to Use**
+
+1. Enter student marks in the highlighted input columns (Internal, External).
+2. All percentages, weights, final scores, grades, and SGPA are generated automatically.
+3. Modify the **GradeMap** sheet to match your institution’s rules.
+
+---
+
+## 📥 **Files Included**
+
+* `StudentPerformance.xlsx` – Main automated calculation sheet
+* `GradeMap` – Grade & SGPA mapping table
+* README description
+
+---
+
+
 
 
